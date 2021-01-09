@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 
@@ -7,7 +7,16 @@ CORS(app)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
-    return "success", 200
+    data = request.json
+    users = [
+        {"id": '1', "username": 'admin', "password": 'admin', "firstName": 'Admin', "lastName": 'User', "role": "Admin"},
+        {'id': '2', "username": 'user', "password": 'user', "firstName": 'Normal', "lastName": 'User', "role": "User"},
+        {'id': '3', "username": 'fc', "password": 'fc', "firstName": 'Fc', "lastName": 'User', "role": "FC"}
+    ]
+    for user in users:
+        if user.get("username") == data.get("username") and user.get("password") == data.get("password"):
+            return jsonify(user), 200
+    return "unsuccessful", 200
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
@@ -42,4 +51,4 @@ def claimReward():
     return "success", 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=105)
+    app.run(host='localhost', port=105)
