@@ -13,6 +13,12 @@ users = [
 
 polls = []
 
+rewards = [
+    {"id": "1", "name": "reward1", "description": "description", "cost": "100"},
+    {"id": "2", "name": "reward2", "description": "description", "cost": "200"},
+    {"id": "3", "name": "reward3", "description": "description", "cost": "300"}
+]
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     data = request.json
@@ -39,6 +45,10 @@ def changeUser():
 
 @app.route('/banUser/', methods=['GET', 'POST'])
 def banUser():
+    data = request.json
+    for user in users:
+        if user.get("username") == data.get("username"):
+            users.remove(user)
     return "success", 200
 
 @app.route('/changeReward/', methods=['GET', 'POST'])
@@ -51,6 +61,10 @@ def addReward():
 
 @app.route('/deleteReward/', methods=['GET', 'POST'])
 def deleteReward():
+    data = request.json
+    for reward in rewards:
+        if reward.get("name") == data.get("name"):
+            rewards.remove(reward)
     return "success", 200
 
 @app.route('/claimReward/', methods=['GET', 'POST'])
