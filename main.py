@@ -57,6 +57,8 @@ def changeReward():
 
 @app.route('/addReward/', methods=['GET', 'POST'])
 def addReward():
+    data = request.json
+    rewards.append(data)
     return "success", 200
 
 @app.route('/deleteReward/', methods=['GET', 'POST'])
@@ -69,6 +71,13 @@ def deleteReward():
 
 @app.route('/claimReward/', methods=['GET', 'POST'])
 def claimReward():
+    data = request.json
+    for user in users:
+        if user.get("id") == data.get("userId"):
+            for reward in rewards:
+                if reward.get("id") == data.get("rewardId"):
+                    user["rewards"] = reward
+                    user["points"] = int(user.get("points")) - int(reward.get("cost"))
     return "success", 200
 
 if __name__ == '__main__':
