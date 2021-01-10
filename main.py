@@ -5,14 +5,17 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+users = [
+    {"id": '1', "username": 'admin', "password": 'admin', "firstName": 'Admin', "lastName": 'User', "role": "Admin"},
+    {'id': '2', "username": 'user', "password": 'user', "firstName": 'Normal', "lastName": 'User', "role": "User"},
+    {'id': '3', "username": 'fc', "password": 'fc', "firstName": 'Fc', "lastName": 'User', "role": "FC"}
+]
+
+polls = []
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     data = request.json
-    users = [
-        {"id": '1', "username": 'admin', "password": 'admin', "firstName": 'Admin', "lastName": 'User', "role": "Admin"},
-        {'id': '2', "username": 'user', "password": 'user', "firstName": 'Normal', "lastName": 'User', "role": "User"},
-        {'id': '3', "username": 'fc', "password": 'fc', "firstName": 'Fc', "lastName": 'User', "role": "FC"}
-    ]
     for user in users:
         if user.get("username") == data.get("username") and user.get("password") == data.get("password"):
             return jsonify(user), 200
@@ -20,10 +23,14 @@ def login():
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
+    data = request.json
+    users.append(data)
     return "success", 200
 
 @app.route('/poll/', methods=['GET', 'POST'])
 def commitPoll():
+    data = request.json
+    polls.append(data)
     return "success", 200
 
 @app.route('/changeUser/', methods=['GET', 'POST'])
