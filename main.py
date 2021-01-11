@@ -45,7 +45,9 @@ def changeUser():
     for user in users:
         if user.get("id") == data.get("id"):
             for change in data:
-                print("1")
+                for info in user:
+                    if change == info:
+                        user[info] = data[change]
     return "success", 200
 
 @app.route('/banUser/', methods=['GET', 'POST'])
@@ -59,6 +61,12 @@ def banUser():
 @app.route('/changeReward/', methods=['GET', 'POST'])
 def changeReward():
     data = request.json
+    for reward in rewards:
+        if reward.get("id") == reward.get("id"):
+            for change in data:
+                for info in reward:
+                    if change == info:
+                        reward[info] = data[change]
     return "success", 200
 
 @app.route('/addReward/', methods=['GET', 'POST'])
